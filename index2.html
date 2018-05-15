@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>setInterval Example</title>
+    <link rel="stylesheet" href="style.css" type="text/css"charset="utf-8" />
+    <script type="text/javascript" charset="utf-8" src="scripts/stats.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/key.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/game.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/rect.js"></script>
+  </head>
+  <body>
+    <canvas id="viewport" height="480" width="640"></canvas>
+
+    <script type="text/javascript" charset="utf-8">
+      var stats = new Stats();
+      stats.domElement.style.position = 'absolute';
+      stats.domElement.style.right = '0px';
+      stats.domElement.style.top = '500px';
+      document.body.appendChild(stats.domElement);
+
+      var renderStats = new Stats();
+      renderStats.domElement.style.position = 'absolute';
+      renderStats.domElement.style.right = '0px';
+      renderStats.domElement.style.top = '550px';
+      document.body.appendChild(renderStats.domElement);
+
+      var updateStats = new Stats();
+      updateStats.domElement.style.position = 'absolute';
+      updateStats.domElement.style.right = '0px';
+      updateStats.domElement.style.top = '600px';
+      document.body.appendChild(updateStats.domElement);
+
+      // Key input eventListener
+      window.addEventListener("keydown", handleKeydown);
+      window.addEventListener("keyup", handleKeyup);
+      window.addEventListener("touchstart", handleTouchstart);
+      window.addEventListener("touchend", handleTouchend);
+
+      // Add some moving rectangles
+      Game.initialize();
+      var i = 10;
+      while (i--) Game.addRect();
+
+
+      // Gameloop
+      Game.run = function() {
+        Game.input();
+        Game.update();
+        Game.draw();
+        // Update fps counter
+        stats.update();
+      };
+      setInterval(Game.run, 1000 / Game.fps);
+
+/*
+      Game.run = (function() {
+        var loops = 0, skipTicks = 1000 / Game.fps,
+            maxFrameSkip = 10,
+            nextGameTick = (new Date).getTime();
+
+        return function() {
+          loops = 0;
+
+          while ((new Date).getTime() > nextGameTick) {
+            updateStats.update();
+            Game.input();
+            Game.update();
+            nextGameTick += skipTicks;
+            loops++;
+          }
+
+          renderStats.update();
+          Game.draw();
+        };
+      })();
+      
+      (function() {
+        var onEachFrame;
+        if (window.requestAnimationFrame) {
+          onEachFrame = function(cb) {
+            var _cb = function() { cb(); requestAnimationFrame(_cb); }
+            _cb();
+          };
+        } else if (window.mozRequestAnimationFrame) {
+          onEachFrame = function(cb) {
+            var _cb = function() { cb(); mozRequestAnimationFrame(_cb); }
+            _cb();
+          };
+        } else {
+          onEachFrame = function(cb) {
+            setInterval(cb, 1000 / 60);
+          }
+        }
+        
+        window.onEachFrame = onEachFrame;
+      })();
+
+      window.onEachFrame(Game.run);
+*/
+    </script>
+  </body>
+</html>
