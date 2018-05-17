@@ -10,28 +10,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css" type="text/css"charset="utf-8" />
     <script type="text/javascript" charset="utf-8" src="scripts/stats.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/dat.gui.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/doxas.gui.js"></script>
     <script type="text/javascript" charset="utf-8" src="scripts/key.js"></script>
     <script type="text/javascript" charset="utf-8" src="scripts/game.js"></script>
     <script type="text/javascript" charset="utf-8" src="scripts/rect.js"></script>
   </head>
   <body>
-    <p>
-    参考にしたサイト<br>
-    <a href="http://t100life.blog121.fc2.com/blog-entry-209.html">JavaScript でゲームループを作る (The Game Loop) </a><br>
-    <a href="http://nokarma.org/2011/02/02/javascript-game-development-the-game-loop/index.html">Javascript Game Development - The Game Loop</a><br>
-    <a href="https://ics.media/tutorial-createjs/keyboard_basic.html">JavaScript でのキーボード制御 キーボードを押したとき</a><br>
-    <a href="https://ics.media/tutorial-createjs/keyboard_ship.html">JavaScript でのキーボード制御 船をキーボードで上下左右に移動する</a><br>
-    <a href="https://app.codegrid.net/entry/touch-mouse">touch, click, pointerの実装
-    第1回 タッチイベントとマウスイベント</a><br>
-    </p>
+
     <canvas id="viewport" height="480" width="640"></canvas>
 
+
     <script type="text/javascript" charset="utf-8">
+
+      //add Stats.js  https://github.com/mrdoob/stats.js/
       var stats = new Stats();
       stats.domElement.style.position = 'absolute';
       stats.domElement.style.right = '0px';
       stats.domElement.style.top = '700px';
       document.body.appendChild(stats.domElement);
+
+      //add dat.gui.js  https://github.com/dataarts/dat.gui
+      const gui = new dat.GUI();
+      document.body.appendChild(gui.domElement);
+
+      //add gui by doxas  https://github.com/doxas
+      let doxasgui;
+      doxasgui = new Gui();
 
       // Key input eventListener
       window.addEventListener("keydown", handleKeydown);
@@ -41,7 +46,7 @@
 
       // Add some moving rectangles
       Game.initialize();
-      var i = 10;
+      var i = 2;
       while (i--) Game.addRect();
 
       // Gameloop
@@ -49,10 +54,31 @@
         Game.input();
         Game.update();
         Game.draw();
-        // Update fps counter
+
+        // set parameter to stats
         stats.update();
       };
+
+      // set parameter to dat.gui
+      gui.add(Game.entities[0], 'x', 0, 600);
+      gui.add(Game.entities[0], 'y', 0, 400);
+
+      // set paramter to gui by doxas
+      doxasgui.text({x: Game.entities[0].x,
+                     y: Game.entities[0].y});
+
       setInterval(Game.run, 1000 / Game.fps);
     </script>
+
+    <p>
+    参考にしたサイト<br>
+    <a href="http://t100life.blog121.fc2.com/blog-entry-209.html">JavaScript でゲームループを作る (The Game Loop) </a><br>
+    <a href="http://nokarma.org/2011/02/02/javascript-game-development-the-game-loop/index.html">Javascript Game Development - The Game Loop</a><br>
+    <a href="https://ics.media/tutorial-createjs/keyboard_basic.html">JavaScript でのキーボード制御 キーボードを押したとき</a><br>
+    <a href="https://ics.media/tutorial-createjs/keyboard_ship.html">JavaScript でのキーボード制御 船をキーボードで上下左右に移動する</a><br>
+    <a href="https://app.codegrid.net/entry/touch-mouse">touch, click, pointerの実装
+    第1回 タッチイベントとマウスイベント</a><br>
+    </p>
+
   </body>
 </html>
