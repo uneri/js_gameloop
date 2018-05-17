@@ -57,15 +57,15 @@
 
         // set parameter to stats
         stats.update();
+
+        // set paramter to gui by doxas
+        doxasgui.text({x: Game.entities[0].x,
+                       y: Game.entities[0].y});
       };
 
       // set parameter to dat.gui
       gui.add(Game.entities[0], 'x', 0, 600);
       gui.add(Game.entities[0], 'y', 0, 400);
-
-      // set paramter to gui by doxas
-      doxasgui.text({x: Game.entities[0].x,
-                     y: Game.entities[0].y});
 
       setInterval(Game.run, 1000 / Game.fps);
     </script>
