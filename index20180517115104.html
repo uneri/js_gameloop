@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>setInterval Example</title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" type="text/css"charset="utf-8" />
+    <script type="text/javascript" charset="utf-8" src="scripts/stats.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/key.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/game.js"></script>
+    <script type="text/javascript" charset="utf-8" src="scripts/rect.js"></script>
+  </head>
+  <body>
+    <p>
+    参考にしたサイト<br>
+    <a href="http://t100life.blog121.fc2.com/blog-entry-209.html">JavaScript でゲームループを作る (The Game Loop) </a><br>
+    <a href="http://nokarma.org/2011/02/02/javascript-game-development-the-game-loop/index.html">Javascript Game Development - The Game Loop</a><br>
+    <a href="https://ics.media/tutorial-createjs/keyboard_basic.html">JavaScript でのキーボード制御 キーボードを押したとき</a><br>
+    <a href="https://ics.media/tutorial-createjs/keyboard_ship.html">JavaScript でのキーボード制御 船をキーボードで上下左右に移動する</a><br>
+    <a href="https://app.codegrid.net/entry/touch-mouse">touch, click, pointerの実装
+    第1回 タッチイベントとマウスイベント</a><br>
+    </p>
+    <canvas id="viewport" height="480" width="640"></canvas>
+
+    <script type="text/javascript" charset="utf-8">
+      var stats = new Stats();
+      stats.domElement.style.position = 'absolute';
+      stats.domElement.style.right = '0px';
+      stats.domElement.style.top = '700px';
+      document.body.appendChild(stats.domElement);
+
+      // Key input eventListener
+      window.addEventListener("keydown", handleKeydown);
+      window.addEventListener("keyup", handleKeyup);
+      window.addEventListener("touchstart", handleTouchstart);
+      window.addEventListener("touchend", handleTouchend);
+
+      // Add some moving rectangles
+      Game.initialize();
+      var i = 10;
+      while (i--) Game.addRect();
+
+      // Gameloop
+      Game.run = function() {
+        Game.input();
+        Game.update();
+        Game.draw();
+        // Update fps counter
+        stats.update();
+      };
+      setInterval(Game.run, 1000 / Game.fps);
+    </script>
+  </body>
+</html>
